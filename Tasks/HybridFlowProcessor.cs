@@ -6,25 +6,21 @@ namespace Tasks
 {
     public class HybridFlowProcessor<T> : IHybridFlowProcessor<T>
     {
-        private LinkedList<T> _storage = new LinkedList<T>();
-
+        private DoublyLinkedList<T> _storage = new DoublyLinkedList<T>();
         /// <summary>
         /// FILO behavior: Push adds an item to the top of the storage.
         /// </summary>
         public T Dequeue()
         {
-            if (_storage.Count == 0)
-            {
-                throw new InvalidOperationException("The proccesor is empty. There is not item to dequeue. ");
-            }
-            T value = _storage.First.Value; //get the value from the first node
-            _storage.RemoveFirst();
-            return value;
+            if (_storage.Length == 0)
+                throw new InvalidOperationException("The processor is empty. There is no item to dequeue");
+
+            return _storage.RemoveAt(0);
         }
 
         public void Enqueue(T item)
         {
-            _storage.AddLast(item); // Add to the end of the doubly linked list.
+            _storage.Add(item); // Agrega al final
         }
 
         /// <summary>
@@ -32,19 +28,15 @@ namespace Tasks
         /// </summary>
         public T Pop()
         {
-            if(_storage.Count == 0)
-            {
+            if (_storage.Length == 0)
                 throw new InvalidOperationException("The processor is empty. There is no item to pop");
-            }
 
-            T value = _storage.First.Value;
-            _storage.RemoveFirst(); //Removes the first node
-            return value;
+            return _storage.RemoveAt(0);
         }
 
         public void Push(T item)
         {
-            _storage.AddFirst(item); //Add to the beginning of the doubly linked list.
+            _storage.AddAt(0, item); // Insertar al inicio
         }
     }
 }
